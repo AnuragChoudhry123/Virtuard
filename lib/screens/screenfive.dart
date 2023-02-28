@@ -19,23 +19,28 @@ class _ScreenFiveState extends State<ScreenFive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith("mailto:") ||
-              request.url.startsWith("tel:") ||
-              request.url.startsWith("whatsapp:")) {
-            _launchURL(request.url);
-            return NavigationDecision.prevent;
-          } else {
-            return NavigationDecision.navigate;
-          }
-        },
-        onWebViewCreated: (WebViewController webViewController) {
-          _controllerCompleter.future.then((value) => _controller = value);
-          _controllerCompleter.complete(webViewController);
-        },
-        initialUrl: 'https://www.virtuard.com/aggiungi/',
-        javascriptMode: JavascriptMode.unrestricted,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15.0),
+          child: WebView(
+            navigationDelegate: (NavigationRequest request) {
+              if (request.url.startsWith("mailto:") ||
+                  request.url.startsWith("tel:") ||
+                  request.url.startsWith("whatsapp:")) {
+                _launchURL(request.url);
+                return NavigationDecision.prevent;
+              } else {
+                return NavigationDecision.navigate;
+              }
+            },
+            onWebViewCreated: (WebViewController webViewController) {
+              _controllerCompleter.future.then((value) => _controller = value);
+              _controllerCompleter.complete(webViewController);
+            },
+            initialUrl: 'https://www.virtuard.com/aggiungi/',
+            javascriptMode: JavascriptMode.unrestricted,
+          ),
+        ),
       ),
     );
   }
